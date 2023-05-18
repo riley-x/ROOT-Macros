@@ -1,1 +1,0 @@
-This is a simple example of compiling simple ROOT executables. Every cxx file in the `./src/` directory is compiled into an executable of the same name in the `./exe/` directory by calling `make`. See `./Makefile`.
