@@ -10,6 +10,10 @@
 #include "TH2.h"
 #include "TF1.h"
 #include "TLorentzVector.h"
+#include "TCanvas.h"
+#include "TPad.h"
+#include "TFrame.h"
+#include "TPaveLabel.h"
 #include <iostream>
 #include <iomanip>
 
@@ -28,13 +32,15 @@ void fillrandom(std::string const & output_path)
     pad1->Draw();
     pad2->Draw();
     pad1->cd();
-    gBenchmark->Start("fillrandom");
+
     //
     // A function (any dimension) or a formula may reference
     // an already defined formula
     //
     auto form1 = new TFormula("form1","abs(sin(x)/x)");
     auto sqroot = new TF1("sqroot","x*gaus(0) + [3]*form1",0,10);
+    (void)form1; // mute error
+
     sqroot->SetParameters(10,4,1,20);
     pad1->SetGridx();
     pad1->SetGridy();
@@ -59,8 +65,9 @@ void fillrandom(std::string const & output_path)
     h1f->Draw();
     c1->Update();
 
-    c1->Print(output_path);
+    c1->Print(output_path.c_str());
 }
+
 
 ///////////////////////////////////////////////////////////////////////////////
 // Main
@@ -68,10 +75,10 @@ void fillrandom(std::string const & output_path)
 
 int help()
 {
-    cerr << "./test output_path\n";
-    cerr << "\n";
-    cerr << "    [output_path]          Path to save the image to.";
-    cerr << endl;
+    std::cerr << "./test output_path\n";
+    std::cerr << "\n";
+    std::cerr << "    [output_path]          Path to save the image to.";
+    std::cerr << std::endl;
     return 1;
 }
 
